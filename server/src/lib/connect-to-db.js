@@ -8,5 +8,5 @@ export const connectToDb = async () => {
     );
   } catch (error) {
     console.log(`error encountered while connecting to database,${error}`);
-  }
+  } 
 };
