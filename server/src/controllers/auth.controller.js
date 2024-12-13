@@ -10,7 +10,7 @@ export const signup = async (req, res) => {
         .status(400)
         .json({ message: `Please check that all fields are filled` });
     }
-    if (password.length < 6) {
+    if (password.length < 7) {
       return res
         .status(400)
         .json({ message: "Password must be at least 6 characters" });
@@ -131,4 +131,4 @@ export const checkAuth = (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-  
+   
