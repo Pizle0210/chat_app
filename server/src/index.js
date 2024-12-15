@@ -4,12 +4,21 @@ import authRoute from "./routes/auth.route.js";
 import messageRoute from "./routes/message.route.js";
 import { connectToDb } from "./lib/connect-to-db.js";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 dotenv.config();
 
 const port = process.env.PORT || 4008;
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
+
+// cors
+app.use(
+  cors({
+    origin: "http://localhost:5174",
+    credentials: true
+  })
+);
 
 app.use("/api/auth", authRoute);
 app.use("/api/message", messageRoute);
