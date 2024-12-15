@@ -5,24 +5,37 @@ import SignUp from "./screens/sign-up";
 import Settings from "./screens/settings";
 import Profile from "./screens/profile";
 import { SignIn } from "./screens/sign-in";
+import ProtectedRoute from "./components/protected-route";
+import NoRedirectingIfAuthenticated from "./components/redirect-if-authenticated";
 
 export const App = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
-
     children: [
       {
         path: "/",
-        element: <Home />
+        element: (
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        )
       },
       {
         path: "/signin",
-        element: <SignIn />
+        element: (
+          <NoRedirectingIfAuthenticated>
+            <SignIn />
+          </NoRedirectingIfAuthenticated>
+        )
       },
       {
         path: "/signup",
-        element: <SignUp />
+        element: (
+          <NoRedirectingIfAuthenticated>
+            <SignUp />
+          </NoRedirectingIfAuthenticated>
+        )
       },
       {
         path: "/settings",
@@ -30,7 +43,11 @@ export const App = createBrowserRouter([
       },
       {
         path: "/profile",
-        element: <Profile />
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        )
       }
     ]
   }
