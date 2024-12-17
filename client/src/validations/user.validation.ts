@@ -16,3 +16,14 @@ export const signInValidation = z.object({
     .string()
     .regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, { message: "Invalid email address" })
 });
+
+export const profileUpdateValidation = z.object({
+  profilePic: z.string().url(),
+  email: z
+    .string()
+    .regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, { message: "Invalid email address" }),
+  fullName: z.string().min(1),
+  password: z
+    .string()
+    .min(7, { message: "Password must be at least 7 characters or above" })
+});

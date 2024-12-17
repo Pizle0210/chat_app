@@ -94,32 +94,42 @@ export const signout = (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    const { profilePic } = req.body;
+    const { profilePic, email, fullName, password } = req.body;
     const userId = req.user._id;
 
-    !profilePic && res.status(400).json({ message: `Profile pic is required` });
+    if (!profilePic) {
+      return res.status(400).json({ message: "Profile pic is required" });
+    }
+    const uploadResponse = await cloudinary.uploader.upload(profilePic, {
+      resource_type: "image",
+      folder: "profilePic",
+      eager_async: true,
+      invalidate: true,
+      max_file_size: 2 * 1024 * 1024
+    });
 
-    const uploadResponse = await cloudinary.uploader.upload(profilePic);
-    const updatedUser = await User.findById(
-      userId,
-      {
-        profilePic: uploadResponse.secure_url
-      },
-      { new: true }
-    );
+    const updatedFields = {
+      profilePic: uploadResponse.secure_url,
+      email,
+      password,
+      fullName
+    };
+    // Hash password if provided
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      updatedFields.password = await bcrypt.hash(password, salt);
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(userId, updatedFields, {
+      new: true
+    });
 
     res.status(200).json(updatedUser);
   } catch (error) {
-    console.log(`Error updating profile`);
-    res.status(500).json({ message: `Internal Server Error` });
+    console.error("Error updating profile:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
-
-// const authRateLimiter = rateLimit({
-//   windowMs: 15 * 60 * 1000, // 15 minutes
-//   max: 100, // limit each IP to 100 requests per windowMs
-//   message: "Too many requests, please try again later."
-// });
 
 export const checkAuth = (req, res) => {
   try {
@@ -131,4 +141,3 @@ export const checkAuth = (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-   

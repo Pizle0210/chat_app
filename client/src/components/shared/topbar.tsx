@@ -22,10 +22,10 @@ export default function Topbar() {
               </div>
               <div className=" ">
                 <span className="text-apple-blue antialiased text-lg">
-                  Fizz
+                  chat
                 </span>
                 <span className="font-extrabold text-apple-black/50 text-xl">
-                  Buzz
+                  App
                 </span>
               </div>
             </Link>
