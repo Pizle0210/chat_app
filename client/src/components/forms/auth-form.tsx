@@ -10,7 +10,7 @@ export default function AuthForm({
 }) {
   return (
     <div
-      className={cn(`shadow-lg px-4 shadow-apple-silver bg-white lg:p-20  rounded-xl max-w-6xl mx-auto max-lg:max-w-3xl flex flex-col items-center justify-center`, className)}
+      className={cn(`shadow-lg px-4 shadow-apple-silver bg-white lg:p-20  rounded-xl max-w-6xl mx-auto max-lg:max-w-4xl flex flex-col items-center justify-center`, className)}
     >
       {children}
     </div>

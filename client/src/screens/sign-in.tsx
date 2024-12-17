@@ -18,7 +18,6 @@ import { useAuthStore } from "@/store/store";
 import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
-import { ToastAction } from "@/components/ui/toast";
 import { LuEye, LuEyeOff, LuMail, LuSend } from "react-icons/lu";
 import { cn } from "@/lib/utils";
 import MiniLoader from "@/components/mini-loader";
@@ -28,7 +27,7 @@ import { SiLivechat } from "react-icons/si";
 
 export function SignIn() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const { signin, isSigningIn, authUser } = useAuthStore();
+  const { signin,isSigningIn, authUser } = useAuthStore();
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -52,38 +51,6 @@ export function SignIn() {
     }
   }, [navigate, authUser]);
 
-  async function retrySignin(values: z.infer<typeof signInValidation>) {
-    try {
-      await signin({
-        email: values.email,
-        password: values.password
-      });
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        if (error.message.includes("Network Error")) {
-          toast({
-            variant: "destructive",
-            title: "Network Error",
-            description: "Please check your internet connection"
-          });
-        } else if (error.message.includes("401")) {
-          toast({
-            variant: "destructive",
-            title: "Invalid Credentials",
-            description: "The email and password you entered is incorrect"
-          });
-        }else{
-          toast({
-            variant:'destructive',
-            title:"Oops! System Error",
-            description:"So sorry, we couldn't sign you in at the moment. Please try again later."
-          })
-        }
-      }
-      console.error("Retry failed", error);
-    }
-  }
-
   async function onSubmit(values: z.infer<typeof signInValidation>) {
     try {
       await signin({
@@ -102,14 +69,6 @@ export function SignIn() {
           title: `Uh oh! Invalid Email or Password. ${error.message}`,
           description: "There was a problem with your request.",
           variant: "destructive",
-          action: (
-            <ToastAction
-              altText="Try again"
-              onClick={() => retrySignin(values)}
-            >
-              Try again
-            </ToastAction>
-          )
         });
       } else {
         console.error("Unexpected error:", error);

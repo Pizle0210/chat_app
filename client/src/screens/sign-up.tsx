@@ -69,7 +69,7 @@ export default function SignUp() {
           "So sorry, we couldn't sign you up at the moment. Please try again later"
       });
     }
-  }
+  } 
 
   async function onSubmit(values: z.infer<typeof userValidation>) {
     try {
