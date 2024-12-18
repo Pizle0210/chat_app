@@ -70,8 +70,6 @@ export function SignIn() {
           description: "There was a problem with your request.",
           variant: "destructive",
         });
-      } else {
-        console.error("Unexpected error:", error);
       }
     }
   }

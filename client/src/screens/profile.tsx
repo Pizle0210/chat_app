@@ -154,6 +154,7 @@ export default function Profile() {
                       <img
                         src={field.value}
                         alt="profile_photo"
+                        loading="eager"
                         className="rounded-full h-[75px] w-[75px]"
                       />
                     ) : (
@@ -195,6 +196,7 @@ export default function Profile() {
                         {...form.register("fullName", {
                           required: "Full name is required"
                         })}
+                        readOnly
                         autoFocus
                         autoComplete="on"
                         placeholder="Full Name"
