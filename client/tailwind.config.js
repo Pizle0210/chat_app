@@ -1,5 +1,6 @@
 import forms from "@tailwindcss/forms";
 import typo from "@tailwindcss/typography";
+import daisyui from "daisyui";
 import t_animate from "tailwindcss-animate";
 
 /** @type {import('tailwindcss').Config} */
@@ -16,31 +17,9 @@ export default {
           lightGray: "#eeeeee", // Apple light gray
           blue: "#0088cc" // Apple blue
         },
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))"
-        },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))"
-        },
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))"
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))"
-        },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))"
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))"
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -48,7 +27,6 @@ export default {
         },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
         chart: {
           1: "hsl(var(--chart-1))",
           2: "hsl(var(--chart-2))",
@@ -64,5 +42,41 @@ export default {
       }
     }
   },
-  plugins: [t_animate, forms, typo]
+  plugins: [t_animate, forms, typo, daisyui],
+  daisyui: {
+    themes: [
+      "light",
+      "dark",
+      "cupcake",
+      "bumblebee",
+      "emerald",
+      "corporate",
+      "synthwave",
+      "retro",
+      "cyberpunk",
+      "valentine",
+      "halloween",
+      "garden",
+      "forest",
+      "aqua",
+      "lofi",
+      "pastel",
+      "fantasy",
+      "wireframe",
+      "black",
+      "luxury",
+      "dracula",
+      "cmyk",
+      "autumn",
+      "business",
+      "acid",
+      "lemonade",
+      "night",
+      "coffee",
+      "winter",
+      "dim",
+      "nord",
+      "sunset"
+    ]
+  }
 };

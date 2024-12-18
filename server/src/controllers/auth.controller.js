@@ -94,7 +94,7 @@ export const signout = (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    const { profilePic, email, fullName, password } = req.body;
+    const { profilePic, email, password } = req.body;
     const userId = req.user._id;
 
     if (!profilePic) {
@@ -112,7 +112,6 @@ export const updateProfile = async (req, res) => {
       profilePic: uploadResponse.secure_url,
       email,
       password,
-      fullName
     };
     // Hash password if provided
     if (password) {
