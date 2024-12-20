@@ -17,12 +17,14 @@ type AuthUserType = {
   createdAt: string;
 };
 
-interface AuthState {
+
+type AuthState = {
   authUser: AuthUserType | null;
   isSigningUp: boolean;
   isUpdatingProfile: boolean;
   isSigningIn: boolean;
   isCheckingAuth: boolean;
+  onlineUsers: string[];
   checkAuth: () => Promise<void>;
   signup: (data: z.infer<typeof userValidation>) => Promise<void>;
   signin: (data: z.infer<typeof signInValidation>) => Promise<void>;
@@ -30,7 +32,7 @@ interface AuthState {
   updateProfile: (
     data: z.infer<typeof profileUpdateValidation>
   ) => Promise<void>;
-}
+};
 
 // Create the store with typed state
 export const useAuthStore = create<AuthState>((set) => ({
@@ -39,6 +41,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   isUpdatingProfile: false,
   isSigningIn: false,
   isCheckingAuth: true,
+  onlineUsers: [] ,
 
   // check authentication
   checkAuth: async () => {

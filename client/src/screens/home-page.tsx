@@ -1,28 +1,21 @@
-import { Button } from "@/components/ui/button";
+import ChatContainer from "@/components/chat-container";
+import NoChatSelected from "@/components/noChatSelected";
+import Sidebar from "@/components/shared/sidebar";
 import { cn } from "@/lib/utils";
-// import { useAuthStore } from "@/store/store";
+import { useChatStore } from "@/store/useChatStore";
 export default function Home() {
-  // const { checkAuth, authUser, isCheckingAuth } = useAuthStore();
+  const { selectedUser } = useChatStore();
 
   return (
-    <div className={cn("w-full h-screen flex flex-col items-center justify-center p-4")}>
-      <div className="flex flex-col space-y-6 max-w-lg text-center">
-        <h1 className="text-2xl font-bold">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex magni
-          molestias exercitationem? Voluptatibus commodi delectus provident
-          aliquid eligendi quis voluptates nesciunt enim tempora molestias.
-          Aperiam nihil quasi saepe culpa dolore!
-        </h1>
-        <p className="text-gray-600">
-          {/* Placeholder text or remove this paragraph if not needed */}
-          This is a placeholder text. Please replace it with actual content.
-        </p>
+    <div className={cn("w-full h-screen items-center p-4")}>
+      <div className="flex items-center justify-center pt-20 px-5">
+        <div className="rounded-lg shadow-lg w-full max-w-6xl h-[calc(100vh-8rem)]">
+          <div className="flex h-full rounded-lg overflow-hidden">
+            <Sidebar />
+            {!selectedUser ? <NoChatSelected /> : <ChatContainer />}
+          </div>
+        </div>
       </div>
-      <Button className="bg-apple-blue p-4 mt-6" size="lg" variant={"default"}>
-        Love
-      </Button>
     </div>
   );
 }
-  
-

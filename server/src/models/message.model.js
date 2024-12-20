@@ -13,7 +13,13 @@ const messageSchema = new mongoose.Schema(
       ref: "User"
     },
     text: {
-      type: String
+      type: String,
+      validate: {
+        validator: (v) => {
+          return !!v || !!this.image;
+        },
+        message: "Message must have either text or an image."
+      }
     },
     image: {
       type: String
