@@ -1,5 +1,6 @@
 import { axiosInstance } from "@/lib/axios";
 import { create } from "zustand";
+import { useAuthStore } from "./store";
 
 type Message = {
   _id: string;
@@ -35,6 +36,8 @@ type ChatState = {
     image?: string;
   }) => Promise<void>;
   setSelectedUser: (user: User | null) => void;
+  listenToMessages: () => void;
+  stopListeningToMessages: () => void;
 };
 
 export const useChatStore = create<ChatState>((set, get) => ({
@@ -92,6 +95,25 @@ export const useChatStore = create<ChatState>((set, get) => ({
       set({ error: errorMessage });
       throw new Error(errorMessage);
     }
+  },
+
+  listenToMessages: () => {
+    const { selectedUser } = get();
+    if (!selectedUser) return;
+
+    const socket = useAuthStore.getState().socket;
+
+    // optimize
+    socket?.on("newMessage", (newMessage) => {
+      const messageToSelectedUser = newMessage.senderId === selectedUser._id
+      if (!messageToSelectedUser) return;
+      set({ messages: [...get().messages, newMessage] });
+    });
+  },
+
+  stopListeningToMessages: () => {
+    const socket = useAuthStore.getState().socket;
+    socket?.off("newMessage");
   },
 
   setSelectedUser: (user) => {

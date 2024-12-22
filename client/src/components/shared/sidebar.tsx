@@ -40,13 +40,13 @@ export default function Sidebar() {
             <span className="text-sm">online</span>
           </label>
           <span className="text-xs text-zinc-500">
-            ({onlineUsers.length} online)
+            ({onlineUsers.length-1} online)
           </span>
         </div>
       </div>
 
       <div className="overflow-y-auto w-full py-3">
-        {users.map((user) => (
+        {filteredUsers.map((user) => (
           <button
             key={user._id}
             onClick={() => setSelectedUser(user)}

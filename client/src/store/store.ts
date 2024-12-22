@@ -6,9 +6,11 @@ import {
 } from "@/validations/user.validation";
 import type { z } from "zod";
 import { create } from "zustand";
+import { io, Socket } from "socket.io-client";
 
+
+ 
 // Define the shape of the state
-
 type AuthUserType = {
   _id: string;
   profilePic: string;
@@ -25,6 +27,7 @@ type AuthState = {
   isSigningIn: boolean;
   isCheckingAuth: boolean;
   onlineUsers: string[];
+  socket: Socket | null;
   checkAuth: () => Promise<void>;
   signup: (data: z.infer<typeof userValidation>) => Promise<void>;
   signin: (data: z.infer<typeof signInValidation>) => Promise<void>;
@@ -32,22 +35,28 @@ type AuthState = {
   updateProfile: (
     data: z.infer<typeof profileUpdateValidation>
   ) => Promise<void>;
+  connectSocket: () => void;
+  disconnectSocket: () => void;
 };
 
+const BASE_URL = `http://localhost:4009`;
+
 // Create the store with typed state
-export const useAuthStore = create<AuthState>((set) => ({
+export const useAuthStore = create<AuthState>((set, get) => ({
   authUser: null,
   isSigningUp: false,
   isUpdatingProfile: false,
   isSigningIn: false,
   isCheckingAuth: true,
   onlineUsers: [],
+  socket: null,
 
   // check authentication
   checkAuth: async () => {
     try {
       const res = await axiosInstance.get(`/auth/check`);
       set({ authUser: res.data });
+      get().connectSocket();
     } catch (error: unknown) {
       console.log(`error authenticating user`, error);
       set({ authUser: null });
@@ -62,6 +71,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       const response = await axiosInstance.post("/auth/signup", data);
       set({ authUser: response.data });
+      get().connectSocket();
     } catch (error: unknown) {
       const errMsg =
         error instanceof Error
@@ -74,7 +84,6 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
   // signin
   signin: async (data: z.infer<typeof signInValidation>) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
     set({ isSigningIn: true });
 
     try {
@@ -83,6 +92,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         throw new Error(`Invalid Email or Password`);
       }
       set({ authUser: response.data });
+      get().connectSocket();
     } catch (error: unknown) {
       const errMsg =
         error instanceof Error
@@ -93,13 +103,11 @@ export const useAuthStore = create<AuthState>((set) => ({
       set({ isSigningIn: false });
     }
   },
-  // signout
   signout: async () => {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-
     try {
       await axiosInstance.post("/auth/signout");
       set({ authUser: null });
+      get().disconnectSocket();
     } catch (error: unknown) {
       const errMsg =
         error instanceof Error
@@ -118,6 +126,37 @@ export const useAuthStore = create<AuthState>((set) => ({
       throw new Error(`Profile update failed. Please try again, ${error} `);
     } finally {
       set({ isUpdatingProfile: false });
+    }
+  },
+
+  connectSocket: () => {
+    const { authUser } = get();
+    if (!authUser || get().socket?.connected) return;
+    try {
+      const socket = io(BASE_URL, {
+        query: {
+          userId: authUser._id
+        }
+      });
+      socket.connect();
+      set({ socket });
+      socket.on(`getOnlineUsers`,(userIds:string[])=>{
+        set({onlineUsers:userIds})
+      });
+    } catch (error) {
+      console.error("Error connecting socket:", error);
+    }
+  },
+
+  disconnectSocket: () => {
+    const { socket } = get();
+    if (socket) {
+      try {
+        socket.disconnect();
+        set({ socket: null });
+      } catch (error) {
+        console.error("Error disconnecting socket:", error);
+      }
     }
   }
 }));
