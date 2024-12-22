@@ -6,11 +6,12 @@ import { connectToDb } from "./lib/connect-to-db.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import fileUpload from "express-fileupload";
-import bodyParser from "body-parser";
+import { app, server } from "./lib/socket.js";
 dotenv.config();
 
 const port = process.env.PORT || 4008;
-const app = express();
+// const app = express();
+
 app.use(express.json({limit:'5mb'}));
 app.use(cookieParser());
 app.use(express.urlencoded({ limit: "5mb", extended: true }));
@@ -35,7 +36,7 @@ app.use(
 app.use("/api/auth", authRoute);
 app.use("/api/messages", messageRoute);
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`connected to port ${port}`);
   connectToDb();
 });
