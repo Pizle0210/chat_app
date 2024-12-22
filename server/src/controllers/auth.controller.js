@@ -100,10 +100,10 @@ export const updateProfile = async (req, res) => {
     const userId = req.user._id;
 
     if (!profilePic) {
-      return res.status(400).json({ message: "Profile pic is required" });
+      return res.status(400).json({ message: "Profile picture is required" });
     }
 
-    const imageBuffer = Buffer.from(image, "base64");
+    const imageBuffer = Buffer.from(profilePic, "base64");
     if (imageBuffer.length > MAX_FILE_SIZE) {
       throw new Error(`File size exceeds the maximum limit`);
     }

@@ -3,11 +3,12 @@ import Topbar from "@/components/shared/topbar";
 import { Outlet } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
 import { useThemeStore } from "@/store/useThemeStore";
+import { useAuthStore } from "@/store/store";
 
 export default function Layout() {
   const { theme } = useThemeStore();
-  console.log("current theme:", theme);
-
+  const { onlineUsers } = useAuthStore();
+  console.log({onlineUsers});
   return (
     <div
       className={`flex w-full flex-col ${
