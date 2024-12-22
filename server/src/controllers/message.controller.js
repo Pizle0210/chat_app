@@ -36,24 +36,44 @@ export async function getMessages(req, res) {
 }
 
 export async function sendMessage(req, res) {
+  const MAX_FILE_SIZE = 5 * 1024 * 1024;
+
   try {
     const { text, image } = req.body;
     const { id: recieverId } = req.params;
     const senderId = req.user._id;
 
+    
+
     let imageUrl = null;
     if (image) {
+      const imageBuffer = Buffer.from(image, "base64");
+      if (imageBuffer.length > MAX_FILE_SIZE) {
+        return res
+          .status(400)
+          .json({ message: "Image size exceeds the maximum limit." });
+      }
       //upload base64 image to cloudinary
-      const uploadResponse = await cloudinary.uploader.upload(image);
+      const uploadResponse = await cloudinary.uploader.upload(image, {
+        resource_type: "image",
+        folder: "user_profile_images",
+        invalidate: true
+      });
       imageUrl = uploadResponse.secure_url;
     }
 
     const newMessage = new Message({
       senderId,
       recieverId,
-      image: imageUrl,
-      text
+      image: imageUrl || null,
+      text: text || null
     });
+
+    console.log(
+      `Received payload size: ${Buffer.byteLength(
+        JSON.stringify(req.body)
+      )} bytes`
+    );
 
     await newMessage.save();
 

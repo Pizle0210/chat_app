@@ -10,13 +10,13 @@ import { create } from "zustand";
 // Define the shape of the state
 
 type AuthUserType = {
+  _id: string;
   profilePic: string;
   email: string;
   fullName: string;
   password: string;
   createdAt: string;
 };
-
 
 type AuthState = {
   authUser: AuthUserType | null;
@@ -41,7 +41,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   isUpdatingProfile: false,
   isSigningIn: false,
   isCheckingAuth: true,
-  onlineUsers: [] ,
+  onlineUsers: [],
 
   // check authentication
   checkAuth: async () => {

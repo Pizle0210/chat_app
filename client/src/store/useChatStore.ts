@@ -10,6 +10,7 @@ type Message = {
   createdAt: string;
   updatedAt: string;
 };
+
 type User = {
   _id: string;
   email: string;
@@ -29,10 +30,14 @@ type ChatState = {
 
   getUsers: () => Promise<void>;
   getMessages: (userId: string) => Promise<void>;
+  sendMessage: (messageData: {
+    text?: string;
+    image?: string;
+  }) => Promise<void>;
   setSelectedUser: (user: User | null) => void;
 };
 
-export const useChatStore = create<ChatState>((set) => ({
+export const useChatStore = create<ChatState>((set, get) => ({
   messages: [],
   users: [],
   selectedUser: null,
@@ -47,8 +52,8 @@ export const useChatStore = create<ChatState>((set) => ({
       set({ users: res.data });
     } catch (error: unknown) {
       const errorMessage =
-        error instanceof Error ? error.message : `Error fetching users`;
-      throw new Error(errorMessage);
+        error instanceof Error ? error.message : "Error fetching users";
+      set({ error: errorMessage });
     } finally {
       set({ isUsersLoading: false });
     }
@@ -61,12 +66,34 @@ export const useChatStore = create<ChatState>((set) => ({
       set({ messages: res.data });
     } catch (error: unknown) {
       const errorMessage =
-        error instanceof Error ? error.message : `Error fetching user messages`;
-      throw new Error(errorMessage);
+        error instanceof Error ? error.message : "Error fetching messages";
+      set({ error: errorMessage });
     } finally {
       set({ isMessagesLoading: false });
     }
   },
+
+  sendMessage: async (messageData: { text?: string; image?: string }) => {
+    const { selectedUser, messages } = get();
+
+    if (!selectedUser) {
+      throw new Error("No user selected to send the message.");
+    }
+
+    try {
+      const res = await axiosInstance.post<Message>(
+        `/messages/send/${selectedUser._id}`,
+        messageData
+      );
+      set({ messages: [...messages, res.data] });
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Error sending message";
+      set({ error: errorMessage });
+      throw new Error(errorMessage);
+    }
+  },
+
   setSelectedUser: (user) => {
     set({ selectedUser: user });
   }
