@@ -138,14 +138,3 @@ export default function Settings() {
     </div>
   );
 }
-
-{
-  /* <div className="">
-  {previewMessage.map((person) => (
-    <div className="" key={person.id}>
-      <h2>{person.name}</h2>
-      <p>{person?.messages[0]}</p>
-    </div>
-  ))}
-</div>; */
-}

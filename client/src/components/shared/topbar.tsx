@@ -8,7 +8,7 @@ import { Button } from "../ui/button";
 export default function Topbar() {
   const { authUser, signout } = useAuthStore();
   return (
-    <header className="mx-auto px-10 flex w-full bg-apple-lightGray fixed top-0 z-40 backdrop-blur-lg border-b">
+    <header className="mx-auto px-10 flex w-full fixed top-0 z-40 backdrop-blur-lg border-b-apple-black/30 border-b">
       <div className="container h-14 mx-auto">
         <div className="flex items-center justify-between h-full">
           {/* left */}

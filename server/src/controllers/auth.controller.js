@@ -93,6 +93,8 @@ export const signout = (req, res) => {
 };
 
 export const updateProfile = async (req, res) => {
+    const MAX_FILE_SIZE = 5 * 1024 * 1024;
+
   try {
     const { profilePic, email, password } = req.body;
     const userId = req.user._id;
@@ -100,12 +102,17 @@ export const updateProfile = async (req, res) => {
     if (!profilePic) {
       return res.status(400).json({ message: "Profile pic is required" });
     }
+
+    const imageBuffer = Buffer.from(image, "base64");
+    if (imageBuffer.length > MAX_FILE_SIZE) {
+      throw new Error(`File size exceeds the maximum limit`);
+    }
+
     const uploadResponse = await cloudinary.uploader.upload(profilePic, {
       resource_type: "image",
       folder: "profilePic",
       eager_async: true,
       invalidate: true,
-      max_file_size: 2 * 1024 * 1024
     });
 
     const updatedFields = {

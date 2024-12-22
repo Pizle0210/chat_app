@@ -37,7 +37,7 @@ type UserMessagePreview = {
   id: number;
   name: string;
   messages: string[];
-  isSent: boolean;
+  isSent:boolean
 };
 
 export const previewMessage: UserMessagePreview[] = [

@@ -3,20 +3,34 @@ import mongoose from "mongoose";
 const messageSchema = new mongoose.Schema(
   {
     senderId: {
-      type: String,
-      required: true,
-      ref: "User"
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true
     },
     recieverId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "User"
     },
     text: {
-      type: String
+      type: String,
+      default: null,
+      validate: {
+        validator: function () {
+          return this.text || this.image;
+        },
+        message: "Message must have either text or an image."
+      }
     },
     image: {
-      type: String
+      type: String,
+      default: null,
+      validate: {
+        validator: function () {
+          return this.text || this.image;
+        },
+        message: "Message must have either text or an image."
+      }
     }
   },
   { timestamps: true }

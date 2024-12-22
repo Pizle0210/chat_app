@@ -14,11 +14,12 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-      minlenght: 6
+      minlenght: 7
     },
     profilePic: {
       type: String,
-      default: ""
+      default:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1rNuFRQJ0m9EkNrwaJtyxCSEfY7Rz35rC_g&s"
     }
   },
   {
