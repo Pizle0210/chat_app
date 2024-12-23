@@ -8,7 +8,7 @@ export default function Settings() {
   return (
     <div
       className={cn(
-        `mx-auto w-[min(100%,80rem)] p-6 max-md:px-4 py-16 flex flex-col items-center mt-5 sm:px-8 min-h-screen`
+        `sm:mx-auto w-[min(100%,80rem)] py-16 flex flex-col items-center mt-5 sm:px-8 min-h-screen`
       )}
     >
       <div className={cn(`flex flex-col md:flex-row gap-8 w-full h-full`)}>

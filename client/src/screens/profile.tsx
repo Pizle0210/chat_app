@@ -125,9 +125,9 @@ export default function Profile() {
 
   console.log(authUser ?? "no data");
   return (
-    <div className="mx-auto w-full items-center flex pt-20 p-5 sm:px-14 flex-col min-h-screen flex-1">
+    <div className="md:mx-auto w-full items-center mb-10 flex mt-10 pt-20 md:pt-20  sm:px-14 flex-col min-h-screen flex-1">
       {/* form */}
-      <AuthForm className="">
+      <AuthForm className="pt-10 pb-24">
         <div className="text-center mb-10 justify-center flex flex-col items-center space-y-3">
           <SiLivechat size={50} className="text-apple-blue" />
           <h1 className="antialiased prose prose-xl font-bold text-2xl">

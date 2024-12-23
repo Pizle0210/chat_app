@@ -76,10 +76,10 @@ export function SignIn() {
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <AuthForm className="">
+      <AuthForm className="pt-20">
         <div className="text-center mb-10 justify-center flex flex-col items-center space-y-3">
           <SiLivechat size={50} className="text-apple-blue" />
-          <h1 className="antialiased prose prose-xl font-bold text-2xl">
+          <h1 className="antialiased font-bold text-2xl">
             Sign In to start connecting
           </h1>
           <p className="text-apple-gray text-sm">

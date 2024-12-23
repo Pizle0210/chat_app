@@ -90,13 +90,13 @@ export default function ChatInput() {
       )}
       <form
         onSubmit={handleSendMessage}
-        className="flex flex-row gap-2 items-center"
+        className="flex flex-row gap-2 w-full items-center"
       >
         <div className="flex-1 flex items-center w-full gap-2">
           <input
             type="text"
             autoFocus
-            className="w-full flex-grow rounded-lg outline-none focus:border-none focus:ring-apple-blue transition-all duration-100 focus:outline-none"
+            className="w-full max-sm:h-7 flex-grow rounded-lg outline-none focus:border-none focus:ring-apple-blue transition-all duration-100 focus:outline-none"
             placeholder="Type a message"
             value={text}
             onChange={(e) => setText(e.target.value)}
