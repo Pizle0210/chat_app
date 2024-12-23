@@ -38,7 +38,7 @@ export default function Profile() {
   const { isUpdatingProfile, updateProfile, authUser } = useAuthStore();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [files, setFiles] = useState<File[]>([]);
+  const [, setFiles] = useState<File[]>([]);
   const { toast } = useToast();
 
   // form

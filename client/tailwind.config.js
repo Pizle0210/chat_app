@@ -2,6 +2,7 @@ import forms from "@tailwindcss/forms";
 import typo from "@tailwindcss/typography";
 import daisyui from "daisyui";
 import t_animate from "tailwindcss-animate";
+import t_form from "@tailwindcss/forms";
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -42,7 +43,7 @@ export default {
       }
     }
   },
-  plugins: [t_animate, forms, typo, daisyui],
+  plugins: [t_animate, forms, typo, daisyui,t_form],
   daisyui: {
     themes: [
       "light",

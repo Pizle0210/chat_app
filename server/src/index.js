@@ -7,12 +7,14 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import fileUpload from "express-fileupload";
 import { app, server } from "./lib/socket.js";
+import path from "path";
 dotenv.config();
 
-const port = process.env.PORT || 4008;
+const port = process.env.PORT || 4009;
+const __dirname = path.resolve();
 // const app = express();
 
-app.use(express.json({limit:'5mb'}));
+app.use(express.json({ limit: "5mb" }));
 app.use(cookieParser());
 app.use(express.urlencoded({ limit: "5mb", extended: true }));
 app.use(
@@ -20,10 +22,6 @@ app.use(
     limits: { fieldSize: 5 * 1024 * 1024 }
   })
 );
-app.use((req, res, next) => {
-  console.log(`Incoming request size: ${req.headers["content-length"]} bytes`);
-  next();
-});
 
 // cors
 app.use(
@@ -35,6 +33,15 @@ app.use(
 
 app.use("/api/auth", authRoute);
 app.use("/api/messages", messageRoute);
+
+//dep...
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../client/dist")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../client", "dist", "index.html"));
+  });
+}
 
 server.listen(port, () => {
   console.log(`connected to port ${port}`);
