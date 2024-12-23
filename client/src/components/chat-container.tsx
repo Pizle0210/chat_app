@@ -60,7 +60,7 @@ export default function ChatContainer() {
       <div className="flex flex-col h-full justify-between">
         <ChatHeader />
         {/* Message Display */}
-        <div className="w-full overflow-y-auto p-4 space-y-4">
+        <div className="w-full overflow-y-auto p-2 h-screen flex-1 space-y-4">
           {messages.length > 0 &&
             messages.map((message) => (
               <div
