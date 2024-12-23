@@ -38,7 +38,7 @@ type AuthState = {
 };
 
 const BASE_URL =
-  import.meta.env.MODE === "development" ? `http://localhost:4009` : "/api";
+  import.meta.env.MODE === "development" ? `http://localhost:4009` : "/";
 
 // Create the store with typed state
 export const useAuthStore = create<AuthState>((set, get) => ({
