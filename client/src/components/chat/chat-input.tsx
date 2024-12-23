@@ -88,12 +88,15 @@ export default function ChatInput() {
           </div>
         </div>
       )}
-      <form onSubmit={handleSendMessage} className="flex gap-2 items-center">
-        <div className="flex-1 flex w-full gap-2">
+      <form
+        onSubmit={handleSendMessage}
+        className="flex flex-row gap-2 items-center"
+      >
+        <div className="flex-1 flex items-center w-full gap-2">
           <input
             type="text"
             autoFocus
-            className="w-full input flex-grow input-bordered rounded-lg input-sm sm:input-md"
+            className="w-full flex-grow rounded-lg outline-none focus:border-none focus:ring-apple-blue transition-all duration-100 focus:outline-none"
             placeholder="Type a message"
             value={text}
             onChange={(e) => setText(e.target.value)}
@@ -107,20 +110,20 @@ export default function ChatInput() {
           />
           <button
             type="button"
-            className={`hidden sm:flex btn btn-circle ${
-              imagePreview ? `text-emerald-500` : `text-zinc-500`
+            className={`border-2 -mt-0.5 p-1 sm:p-2 rounded-md shadow-md shadow-apple-silver items-center ${
+              imagePreview ? `text-apple-blue` : `text-zinc-500`
             }`}
             onClick={() => fileInputRef.current?.click()}
           >
-            <LuImage size={40} />
+            <LuImage size={20} />
           </button>
         </div>
         <button
           type="submit"
-          className="btn btn-sm"
+          className="border-2 -mt-0.5 p-1 sm:p-2 rounded-md shadow-md shadow-apple-silver text-apple-blue"
           disabled={!text.trim() && !imagePreview}
         >
-          <Send size={30} />
+          <Send size={20} />
         </button>
       </form>
     </div>

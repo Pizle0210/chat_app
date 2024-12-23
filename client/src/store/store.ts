@@ -8,8 +8,6 @@ import type { z } from "zod";
 import { create } from "zustand";
 import { io, Socket } from "socket.io-client";
 
-
- 
 // Define the shape of the state
 type AuthUserType = {
   _id: string;
@@ -39,7 +37,8 @@ type AuthState = {
   disconnectSocket: () => void;
 };
 
-const BASE_URL = `http://localhost:4009`;
+const BASE_URL =
+  import.meta.env.MODE === "development" ? `http://localhost:4009` : "/api";
 
 // Create the store with typed state
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -140,8 +139,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       });
       socket.connect();
       set({ socket });
-      socket.on(`getOnlineUsers`,(userIds:string[])=>{
-        set({onlineUsers:userIds})
+      socket.on(`getOnlineUsers`, (userIds: string[]) => {
+        set({ onlineUsers: userIds });
       });
     } catch (error) {
       console.error("Error connecting socket:", error);
