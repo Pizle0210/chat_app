@@ -96,7 +96,7 @@ export default function ChatInput() {
           <input
             type="text"
             autoFocus
-            className="w-full max-sm:h-7 flex-grow rounded-lg outline-none focus:border-none focus:ring-apple-blue transition-all duration-100 focus:outline-none"
+            className="w-full max-sm:text-xs max-sm:h-7 flex-grow rounded-lg outline-none focus:border-none focus:ring-apple-blue transition-all duration-100 focus:outline-none"
             placeholder="Type a message"
             value={text}
             onChange={(e) => setText(e.target.value)}
